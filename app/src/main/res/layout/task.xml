@@ -18,4 +18,18 @@
         android:layout_weight="1"
         android:text="@string/task_content" />
 
+    <Button
+        android:id="@+id/btn_edit_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="update" />
+
+    <Button
+        android:id="@+id/btn_delete_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="delete" />
+
 </LinearLayout>

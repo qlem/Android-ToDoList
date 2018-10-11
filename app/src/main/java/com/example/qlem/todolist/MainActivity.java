@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import com.example.qlem.todolist.task.TaskContent.Task;
 import com.example.qlem.todolist.task.TaskContent;
 import com.example.qlem.todolist.db.dbHelper;
 import com.example.qlem.todolist.db.dbContrat.FeedEntry;
@@ -60,7 +62,23 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        Adapter adapter = new Adapter(taskList.TASK_LIST);
+        final Adapter adapter = new Adapter(taskList.TASK_LIST, new OnTaskClickListener() {
+            @Override
+            public void onTaskClickListener(Task task) {
+                Toast.makeText(MainActivity.this, task.name, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onTaskEditClickListener(Task task) {
+                Toast.makeText(MainActivity.this, "update " + task.name, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onTaskDeleteClickListener(Task task) {
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
+                String[] selectionArgs = { task.name };
+                db.delete(FeedEntry.TABLE_NAME, selection, selectionArgs);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -92,5 +110,11 @@ public class MainActivity extends AppCompatActivity {
             String task[] = data.getStringArrayExtra("task");
             taskList.addTask(task[0], task[1]);
         }
+    }
+
+    public interface OnTaskClickListener {
+        void onTaskClickListener(Task task);
+        void onTaskEditClickListener(Task task);
+        void onTaskDeleteClickListener(Task task);
     }
 }
