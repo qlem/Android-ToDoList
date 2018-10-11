@@ -24,6 +24,30 @@ public class MainActivity extends AppCompatActivity {
     private TaskContent taskList = new TaskContent();
     private dbHelper dbHelper = new dbHelper(this);
 
+    public void getTasks() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                BaseColumns._ID,
+                FeedEntry.COLUMN_NAME_TITLE,
+                FeedEntry.COLUMN_NAME_SUBTITLE
+        };
+        Cursor cursor = db.query(FeedEntry.TABLE_NAME, projection, null,
+                null, null, null, null);
+
+        while(cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(FeedEntry.COLUMN_NAME_TITLE));
+            String content = cursor.getString(cursor.getColumnIndexOrThrow(FeedEntry.COLUMN_NAME_SUBTITLE));
+            taskList.addTask(name, content);
+        }
+        cursor.close();
+    }
+
+    public interface OnTaskEventListener {
+        void onTaskClickListener(Task task);
+        void onTaskEditListener(Task task);
+        void onTaskDeleteListener(Task task);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +64,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = {
-                BaseColumns._ID,
-                FeedEntry.COLUMN_NAME_TITLE,
-                FeedEntry.COLUMN_NAME_SUBTITLE
-        };
-        Cursor cursor = db.query(FeedEntry.TABLE_NAME, projection, null,
-                null, null, null, null);
-
-        while(cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(FeedEntry.COLUMN_NAME_TITLE));
-            String content = cursor.getString(cursor.getColumnIndexOrThrow(FeedEntry.COLUMN_NAME_SUBTITLE));
-            taskList.addTask(name, content);
-        }
-        cursor.close();
+        // Get tasks from db
+        getTasks();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -62,17 +73,17 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        final Adapter adapter = new Adapter(taskList.TASK_LIST, new OnTaskClickListener() {
+        final Adapter adapter = new Adapter(taskList.TASK_LIST, new OnTaskEventListener() {
             @Override
             public void onTaskClickListener(Task task) {
                 Toast.makeText(MainActivity.this, task.name, Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void onTaskEditClickListener(Task task) {
+            public void onTaskEditListener(Task task) {
                 Toast.makeText(MainActivity.this, "update " + task.name, Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void onTaskDeleteClickListener(Task task) {
+            public void onTaskDeleteListener(Task task) {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
                 String[] selectionArgs = { task.name };
@@ -110,11 +121,5 @@ public class MainActivity extends AppCompatActivity {
             String task[] = data.getStringArrayExtra("task");
             taskList.addTask(task[0], task[1]);
         }
-    }
-
-    public interface OnTaskClickListener {
-        void onTaskClickListener(Task task);
-        void onTaskEditClickListener(Task task);
-        void onTaskDeleteClickListener(Task task);
     }
 }

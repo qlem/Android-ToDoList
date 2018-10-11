@@ -20,7 +20,7 @@ public class TaskContent {
         public String name;
         public String content;
 
-        public Task(String name, String content) {
+        Task(String name, String content) {
             this.name = name;
             this.content = content;
         }

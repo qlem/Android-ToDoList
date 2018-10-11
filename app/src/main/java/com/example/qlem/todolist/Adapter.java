@@ -9,22 +9,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import java.util.List;
 import com.example.qlem.todolist.task.TaskContent.Task;
-import com.example.qlem.todolist.MainActivity.OnTaskClickListener;
+import com.example.qlem.todolist.MainActivity.OnTaskEventListener;
 
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<Task> taskList;
-    private OnTaskClickListener listener;
+    private OnTaskEventListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public Task task;
-        public TextView taskName;
-        public TextView taskContent;
-        public Button editButton;
-        public Button deleteButton;
+        TextView taskName;
+        TextView taskContent;
+        Button editButton;
+        Button deleteButton;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             view = v;
             taskName = view.findViewById(R.id.task_name);
@@ -34,12 +34,12 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
     }
 
-    public Adapter(List<Task> taskList, OnTaskClickListener listener) {
+    Adapter(List<Task> taskList, OnTaskEventListener listener) {
         this.taskList = taskList;
         this.listener = listener;
     }
 
-    public void removeTask(int position) {
+    private void removeTask(int position) {
         taskList.remove(position);
         notifyItemRemoved(position);
     }
@@ -67,14 +67,14 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onTaskEditClickListener(holder.task);
+                listener.onTaskEditListener(holder.task);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeTask(holder.getAdapterPosition());
-                listener.onTaskDeleteClickListener(holder.task);
+                listener.onTaskDeleteListener(holder.task);
             }
         });
     }
