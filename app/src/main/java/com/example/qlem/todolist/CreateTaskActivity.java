@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.qlem.todolist.db.dbHelper;
 import static com.example.qlem.todolist.db.dbContrat.FeedEntry;
 
@@ -28,6 +29,14 @@ public class CreateTaskActivity extends AppCompatActivity {
                 TextView taskContentView = findViewById(R.id.add_task_content);
                 String taskName = taskNameView.getText().toString();
                 String taskContent = taskContentView.getText().toString();
+
+                if (taskName.isEmpty()) {
+                    Toast.makeText(CreateTaskActivity.this, "Please enter a task name", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (taskContent.isEmpty()) {
+                    Toast.makeText(CreateTaskActivity.this, "Please enter a task description", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // TODO task name must be unique
                 SQLiteDatabase db = dbHelper.getWritableDatabase();

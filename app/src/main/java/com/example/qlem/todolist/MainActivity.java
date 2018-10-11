@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TaskContent taskList = new TaskContent();
 
+    private dbHelper dbHelper = new dbHelper(this);
+
     public interface OnTaskEventListener {
         void onTaskClickListener(Task task);
         void onTaskEditListener(Task task, int position);
@@ -51,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyItemRemoved(position);
         }
     });
-
-    private dbHelper dbHelper = new dbHelper(this);
 
     public void getTasks() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();

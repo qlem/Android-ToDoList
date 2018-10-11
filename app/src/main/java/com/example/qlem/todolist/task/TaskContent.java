@@ -1,7 +1,5 @@
 package com.example.qlem.todolist.task;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,6 @@ public class TaskContent {
     }
 
     public void updateTask(String name, String content, int position) {
-        Log.i("DEBUG", name);
         TASK_LIST.set(position, new Task(name, content));
     }
 

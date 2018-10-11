@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.qlem.todolist.db.dbContrat.FeedEntry;
 import com.example.qlem.todolist.db.dbHelper;
 
@@ -20,12 +21,12 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-        TextView taskNameView = findViewById(R.id.edit_task_name);
-        TextView taskContentView = findViewById(R.id.edit_task_content);
-
         Intent intent = getIntent();
         final String task[] = intent.getStringArrayExtra("task");
         final int position = intent.getIntExtra("position", 0);
+
+        TextView taskNameView = findViewById(R.id.edit_task_name);
+        TextView taskContentView = findViewById(R.id.edit_task_content);
         taskNameView.setText(task[0]);
         taskContentView.setText(task[1]);
 
@@ -37,6 +38,17 @@ public class EditTaskActivity extends AppCompatActivity {
                 TextView taskContentView = findViewById(R.id.edit_task_content);
                 String taskName = taskNameView.getText().toString();
                 String taskContent = taskContentView.getText().toString();
+
+                if (taskName.isEmpty()) {
+                    Toast.makeText(EditTaskActivity.this, "Please enter a task name", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (taskContent.isEmpty()) {
+                    Toast.makeText(EditTaskActivity.this, "Please enter a task description", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (task[0].equals(taskName) && task[1].equals(taskContent)) {
+                    Toast.makeText(EditTaskActivity.this, "No change", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // TODO task name must be unique
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
