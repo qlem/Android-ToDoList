@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
             String[] selectionArgs = { task.name };
             db.delete(FeedEntry.TABLE_NAME, selection, selectionArgs);
-            taskList.TASK_LIST.remove(position);
+            taskList.removeTask(position);
             adapter.notifyItemRemoved(position);
         }
     });
