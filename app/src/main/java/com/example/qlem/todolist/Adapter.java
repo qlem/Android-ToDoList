@@ -39,11 +39,6 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         this.listener = listener;
     }
 
-    private void removeTask(int position) {
-        taskList.remove(position);
-        notifyItemRemoved(position);
-    }
-
     @NonNull
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,7 +48,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.task = taskList.get(position);
         holder.taskName.setText(taskList.get(position).name);
         holder.taskContent.setText(taskList.get(position).content);
@@ -67,14 +62,13 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onTaskEditListener(holder.task);
+                listener.onTaskEditListener(holder.task, holder.getAdapterPosition());
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeTask(holder.getAdapterPosition());
-                listener.onTaskDeleteListener(holder.task);
+                listener.onTaskDeleteListener(holder.task, holder.getAdapterPosition());
             }
         });
     }

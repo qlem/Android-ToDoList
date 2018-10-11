@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreateTaskActivity"/>
+        <activity android:name=".CreateTaskActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".EditTaskActivity" android:parentActivityName=".MainActivity"/>
 
     </application>
 

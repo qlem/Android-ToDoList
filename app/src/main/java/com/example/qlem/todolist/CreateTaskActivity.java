@@ -20,16 +20,16 @@ public class CreateTaskActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_create_task);
 
-        Button btnAddTask = findViewById(R.id.btn_add_task);
+        Button btnAddTask = findViewById(R.id.add_task_btn);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView taskNameView = findViewById(R.id.task_name);
-                TextView taskContentView = findViewById(R.id.task_content);
-
+                TextView taskNameView = findViewById(R.id.add_task_name);
+                TextView taskContentView = findViewById(R.id.add_task_content);
                 String taskName = taskNameView.getText().toString();
                 String taskContent = taskContentView.getText().toString();
 
+                // TODO task name must be unique
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
                 cv.put(FeedEntry.COLUMN_NAME_TITLE, taskName);

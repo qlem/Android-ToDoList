@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/task_name" />
+        android:text="@string/add_task_name" />
 
     <TextView
         android:id="@+id/task_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/task_content" />
+        android:text="@string/add_task_content" />
 
     <Button
         android:id="@+id/btn_edit_task"

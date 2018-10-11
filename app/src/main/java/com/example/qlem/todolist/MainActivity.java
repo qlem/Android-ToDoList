@@ -22,6 +22,36 @@ import com.example.qlem.todolist.db.dbContrat.FeedEntry;
 public class MainActivity extends AppCompatActivity {
 
     private TaskContent taskList = new TaskContent();
+
+    public interface OnTaskEventListener {
+        void onTaskClickListener(Task task);
+        void onTaskEditListener(Task task, int position);
+        void onTaskDeleteListener(Task task, int position);
+    }
+
+    private Adapter adapter = new Adapter(taskList.TASK_LIST, new OnTaskEventListener() {
+        @Override
+        public void onTaskClickListener(Task task) {
+            Toast.makeText(MainActivity.this, task.name, Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onTaskEditListener(Task task, int position) {
+            Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+            intent.putExtra("task", new String[]{task.name, task.content});
+            intent.putExtra("position", position);
+            startActivityForResult(intent, 2);
+        }
+        @Override
+        public void onTaskDeleteListener(Task task, int position) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
+            String[] selectionArgs = { task.name };
+            db.delete(FeedEntry.TABLE_NAME, selection, selectionArgs);
+            taskList.TASK_LIST.remove(position);
+            adapter.notifyItemRemoved(position);
+        }
+    });
+
     private dbHelper dbHelper = new dbHelper(this);
 
     public void getTasks() {
@@ -40,12 +70,6 @@ public class MainActivity extends AppCompatActivity {
             taskList.addTask(name, content);
         }
         cursor.close();
-    }
-
-    public interface OnTaskEventListener {
-        void onTaskClickListener(Task task);
-        void onTaskEditListener(Task task);
-        void onTaskDeleteListener(Task task);
     }
 
     @Override
@@ -73,23 +97,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        final Adapter adapter = new Adapter(taskList.TASK_LIST, new OnTaskEventListener() {
-            @Override
-            public void onTaskClickListener(Task task) {
-                Toast.makeText(MainActivity.this, task.name, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onTaskEditListener(Task task) {
-                Toast.makeText(MainActivity.this, "update " + task.name, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onTaskDeleteListener(Task task) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
-                String[] selectionArgs = { task.name };
-                db.delete(FeedEntry.TABLE_NAME, selection, selectionArgs);
-            }
-        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -120,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String task[] = data.getStringArrayExtra("task");
             taskList.addTask(task[0], task[1]);
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
+            String task[] = data.getStringArrayExtra("task");
+            int position = data.getIntExtra("position", 0);
+            taskList.updateTask(task[0], task[1], position);
+            adapter.notifyItemChanged(position);
         }
     }
 }
