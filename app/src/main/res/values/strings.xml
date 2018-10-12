@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">todoList</string>
     <string name="action_settings">Settings</string>
+    <string name="task_name">Name</string>
+    <string name="task_content">Content</string>
     <string name="add_task_name">Name</string>
     <string name="add_task_content">Content</string>
     <string name="add_task_btn">Add</string>

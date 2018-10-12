@@ -3,7 +3,7 @@ package com.example.qlem.todolist.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.qlem.todolist.db.dbContrat.FeedEntry;
+import com.example.qlem.todolist.db.dbContract.FeedEntry;
 
 public class dbHelper extends SQLiteOpenHelper {
 
@@ -30,8 +30,10 @@ public class dbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                     FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    FeedEntry.COLUMN_NAME_TITLE + " TEXT," +
-                    FeedEntry.COLUMN_NAME_SUBTITLE + " TEXT)";
+                    FeedEntry.COLUMN_TASK_TITLE + " TEXT UNIQUE," +
+                    FeedEntry.COLUMN_TASK_NOTE + " TEXT," +
+                    FeedEntry.COLUMN_TASK_DONE + " INTEGER)"
+            ;
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;

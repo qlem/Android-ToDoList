@@ -2,6 +2,7 @@ package com.example.qlem.todolist;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.qlem.todolist.db.dbContrat.FeedEntry;
+import com.example.qlem.todolist.db.dbContract.FeedEntry;
 import com.example.qlem.todolist.db.dbHelper;
 
 public class EditTaskActivity extends AppCompatActivity {
@@ -50,14 +51,18 @@ public class EditTaskActivity extends AppCompatActivity {
                     return;
                 }
 
-                // TODO task name must be unique
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                ContentValues cv = new ContentValues();
-                cv.put(FeedEntry.COLUMN_NAME_TITLE, taskName);
-                cv.put(FeedEntry.COLUMN_NAME_SUBTITLE, taskContent);
-                String selection = FeedEntry.COLUMN_NAME_TITLE + " LIKE ?";
-                String[] selectionArgs = { task[0] };
-                db.update(FeedEntry.TABLE_NAME, cv, selection, selectionArgs);
+                try {
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    ContentValues cv = new ContentValues();
+                    cv.put(FeedEntry.COLUMN_TASK_TITLE, taskName);
+                    cv.put(FeedEntry.COLUMN_TASK_NOTE, taskContent);
+                    String selection = FeedEntry.COLUMN_TASK_TITLE + " LIKE ?";
+                    String[] selectionArgs = { task[0] };
+                    db.update(FeedEntry.TABLE_NAME, cv, selection, selectionArgs);
+                } catch (SQLiteConstraintException e) {
+                    Toast.makeText(EditTaskActivity.this, "Task name already used", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 String task[] = {taskName, taskContent};
@@ -68,5 +73,11 @@ public class EditTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
     }
 }

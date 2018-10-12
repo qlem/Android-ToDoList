@@ -2,6 +2,7 @@ package com.example.qlem.todolist;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.qlem.todolist.db.dbHelper;
-import static com.example.qlem.todolist.db.dbContrat.FeedEntry;
+import static com.example.qlem.todolist.db.dbContract.FeedEntry;
 
 public class CreateTaskActivity extends AppCompatActivity {
 
@@ -38,12 +39,17 @@ public class CreateTaskActivity extends AppCompatActivity {
                     return;
                 }
 
-                // TODO task name must be unique
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                ContentValues cv = new ContentValues();
-                cv.put(FeedEntry.COLUMN_NAME_TITLE, taskName);
-                cv.put(FeedEntry.COLUMN_NAME_SUBTITLE, taskContent);
-                db.insert(FeedEntry.TABLE_NAME, null, cv);
+                try {
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    ContentValues cv = new ContentValues();
+                    cv.put(FeedEntry.COLUMN_TASK_TITLE, taskName);
+                    cv.put(FeedEntry.COLUMN_TASK_NOTE, taskContent);
+                    cv.put(FeedEntry.COLUMN_TASK_DONE, 0);
+                    db.insertOrThrow(FeedEntry.TABLE_NAME, null, cv);
+                } catch (SQLiteConstraintException e) {
+                    Toast.makeText(CreateTaskActivity.this, "Task name already used", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 String task[] = {taskName, taskContent};
@@ -53,5 +59,11 @@ public class CreateTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
     }
 }

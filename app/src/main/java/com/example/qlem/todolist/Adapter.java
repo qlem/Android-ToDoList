@@ -1,15 +1,16 @@
 package com.example.qlem.todolist;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import java.util.List;
 import com.example.qlem.todolist.task.TaskContent.Task;
 import com.example.qlem.todolist.MainActivity.OnTaskEventListener;
+import static android.graphics.Color.rgb;
 
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
@@ -21,16 +22,18 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public Task task;
         TextView taskName;
         TextView taskContent;
-        Button editButton;
-        Button deleteButton;
+        AppCompatImageButton editButton;
+        AppCompatImageButton deleteButton;
+        AppCompatImageButton doneButton;
 
         ViewHolder(View v) {
             super(v);
             view = v;
             taskName = view.findViewById(R.id.task_name);
             taskContent = view.findViewById(R.id.task_content);
-            editButton = view.findViewById(R.id.btn_edit_task);
-            deleteButton = view.findViewById(R.id.btn_delete_task);
+            editButton = view.findViewById(R.id.task_edit_btn);
+            deleteButton = view.findViewById(R.id.task_delete_btn);
+            doneButton = view.findViewById(R.id.task_done_btn);
         }
     }
 
@@ -53,6 +56,12 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.taskName.setText(taskList.get(position).name);
         holder.taskContent.setText(taskList.get(position).content);
 
+        if (holder.task.done == 0) {
+            holder.view.setBackgroundColor(rgb(99, 218, 255));
+        } else {
+            holder.view.setBackgroundColor(rgb(156, 255, 99));
+        }
+
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +78,12 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 listener.onTaskDeleteListener(holder.task, holder.getAdapterPosition());
+            }
+        });
+        holder.doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onTaskDoneListener(holder.task, holder.getAdapterPosition());
             }
         });
     }
