@@ -25,6 +25,8 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     /**
      * Method that initializes this activity. It is called when activity is created.
+     * Adds a new task in the database the returns this task to main activity when
+     * the "add" button is clicked.
      * @param saveInstanceState
      */
     @Override
@@ -34,12 +36,6 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         Button btnAddTask = findViewById(R.id.add_task_btn);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
-
-            /**
-             * Event method that adds the new task in database then returns this new task
-             * to main activity when the "add" button is clicked.
-             * @param v
-             */
             @Override
             public void onClick(View v) {
                 TextView taskNameView = findViewById(R.id.add_task_name);

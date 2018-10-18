@@ -25,6 +25,8 @@ public class EditTaskActivity extends AppCompatActivity {
 
     /**
      * Method that initializes this activity. It is called when activity is created.
+     * Updates the passed task into the database then return this task to the main activity
+     * when the "edit" button is clicked.
      * @param saveInstanceState
      */
     @Override
@@ -43,12 +45,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
         Button editButton = findViewById(R.id.edit_task_btn);
         editButton.setOnClickListener(new View.OnClickListener() {
-
-            /**
-             * Event method that updates the passed task in database then returns this task
-             * to main activity when the "edit" button is clicked.
-             * @param v
-             */
             @Override
             public void onClick(View v) {
                 TextView taskNameView = findViewById(R.id.edit_task_name);

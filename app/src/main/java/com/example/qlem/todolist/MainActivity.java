@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
      * Method who allows to get all saved tasks from database and to add these tasks
      * into the task list.
      */
-    public void getTasks() {
+    private void getTasks() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 BaseColumns._ID,
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method that initializes the main activity. Sets the recycler view of the task list.
+     * Starts "create task" activity when "add" button is clicked.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,11 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
-            /**
-             * Event method that starts "create task" activity when "add" button is clicked.
-             * @param view
-             */
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);

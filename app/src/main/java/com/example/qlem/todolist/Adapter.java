@@ -14,7 +14,7 @@ import static android.graphics.Color.rgb;
 /**
  * Class that defines the adapter of the recycler view.
  */
-class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     /**
      * Variable that contains the task list.
@@ -40,14 +40,46 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
      * Class that sets the content of the view of each task.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View view;
-        public Task task;
-        TextView taskName;
-        TextView taskContent;
-        AppCompatImageButton editButton;
-        AppCompatImageButton deleteButton;
-        AppCompatImageButton doneButton;
 
+        /**
+         * The view of a task element.
+         */
+        public View view;
+
+        /**
+         * The task object.
+         */
+        public Task task;
+
+        /**
+         * The text view that contains the task name.
+         */
+        private TextView taskName;
+
+        /**
+         * the text view that contains the content of the task.
+         */
+        private TextView taskContent;
+
+        /**
+         * The "edit" button of a task view.
+         */
+        private AppCompatImageButton editButton;
+
+        /**
+         * The "delete" button of a task view.
+         */
+        private AppCompatImageButton deleteButton;
+
+        /**
+         * The "done / undone" button of a task view.
+         */
+        private AppCompatImageButton doneButton;
+
+        /**
+         * Constructor of the view holder.
+         * @param v
+         */
         ViewHolder(View v) {
             super(v);
             view = v;
@@ -61,7 +93,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     /**
      * Method that is called at the creation of the adapter.
-     * Sets the view for each task of the list : the "view holder".
+     * Sets the view holder for each task of the list.
      * @param parent
      * @param viewType
      * @return
