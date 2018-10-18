@@ -9,14 +9,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 import com.example.qlem.todolist.task.TaskContent.Task;
-import com.example.qlem.todolist.MainActivity.OnTaskEventListener;
 import static android.graphics.Color.rgb;
 
+/**
+ * Class that defines the adapter of the recycler view.
+ */
 class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
+    /**
+     * Variable that contains the task list.
+     */
     private List<Task> taskList;
+
+    /**
+     * Variable that contains the event listener object.
+     */
     private OnTaskEventListener listener;
 
+    /**
+     * Constructor of the adapter.
+     * @param taskList the list of tasks
+     * @param listener the event listener object
+     */
+    Adapter(List<Task> taskList, OnTaskEventListener listener) {
+        this.taskList = taskList;
+        this.listener = listener;
+    }
+
+    /**
+     * Class that sets the content of the view of each task.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public Task task;
@@ -37,11 +59,13 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
     }
 
-    Adapter(List<Task> taskList, OnTaskEventListener listener) {
-        this.taskList = taskList;
-        this.listener = listener;
-    }
-
+    /**
+     * Method that is called at the creation of the adapter.
+     * Sets the view for each task of the list : the "view holder".
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +74,11 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    /**
+     * Method that binds data and event listeners of each task to their view.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.task = taskList.get(position);
@@ -62,25 +91,36 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.view.setBackgroundColor(rgb(156, 255, 99));
         }
 
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onTaskClickListener(holder.task);
-            }
-        });
         holder.editButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Method that sets the event listener for the "edit" button.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 listener.onTaskEditListener(holder.task, holder.getAdapterPosition());
             }
         });
+
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Method that sets the event listener for the "delete" button.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 listener.onTaskDeleteListener(holder.task, holder.getAdapterPosition());
             }
         });
+
         holder.doneButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             *  Method that sets the event listener for the "done / undone" button.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 listener.onTaskDoneListener(holder.task, holder.getAdapterPosition());
@@ -88,6 +128,10 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         });
     }
 
+    /**
+     * Method that return the number of task in the list.
+     * @return
+     */
     @Override
     public int getItemCount() {
         return taskList.size();

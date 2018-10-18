@@ -13,10 +13,20 @@ import android.widget.Toast;
 import com.example.qlem.todolist.db.dbContract.FeedEntry;
 import com.example.qlem.todolist.db.dbHelper;
 
+/**
+ * Class of the "edit task" activity. Allows to edit a task.
+ */
 public class EditTaskActivity extends AppCompatActivity {
 
+    /**
+     * Variable who stores database helper instance. Allows to handle database.
+     */
     private dbHelper dbHelper = new dbHelper(this);
 
+    /**
+     * Method that initializes this activity. It is called when activity is created.
+     * @param saveInstanceState
+     */
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -33,6 +43,12 @@ public class EditTaskActivity extends AppCompatActivity {
 
         Button editButton = findViewById(R.id.edit_task_btn);
         editButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Event method that updates the passed task in database then returns this task
+             * to main activity when the "edit" button is clicked.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 TextView taskNameView = findViewById(R.id.edit_task_name);
@@ -69,12 +85,14 @@ public class EditTaskActivity extends AppCompatActivity {
                 intent.putExtra("task", task);
                 intent.putExtra("position", position);
                 setResult(RESULT_OK, intent);
-
                 finish();
             }
         });
     }
 
+    /**
+     * Method who is called when the activity is destroy. Close the database helper instance.
+     */
     @Override
     protected void onDestroy() {
         dbHelper.close();

@@ -13,10 +13,20 @@ import android.widget.Toast;
 import com.example.qlem.todolist.db.dbHelper;
 import static com.example.qlem.todolist.db.dbContract.FeedEntry;
 
+/**
+ * Class of the "create task" activity. Allows to create a new task.
+ */
 public class CreateTaskActivity extends AppCompatActivity {
 
+    /**
+     * Variable who stores database helper instance. Allows to handle database.
+     */
     private dbHelper dbHelper = new dbHelper(this);
 
+    /**
+     * Method that initializes this activity. It is called when activity is created.
+     * @param saveInstanceState
+     */
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -24,6 +34,12 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         Button btnAddTask = findViewById(R.id.add_task_btn);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Event method that adds the new task in database then returns this new task
+             * to main activity when the "add" button is clicked.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 TextView taskNameView = findViewById(R.id.add_task_name);
@@ -55,12 +71,14 @@ public class CreateTaskActivity extends AppCompatActivity {
                 String task[] = {taskName, taskContent};
                 intent.putExtra("task", task);
                 setResult(RESULT_OK, intent);
-
                 finish();
             }
         });
     }
 
+    /**
+     * Method who is called when the activity is destroy. Close the database helper instance.
+     */
     @Override
     protected void onDestroy() {
         dbHelper.close();

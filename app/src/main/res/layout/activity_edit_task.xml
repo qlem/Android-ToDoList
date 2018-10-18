@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_task_name_hint"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:maxLength="40"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -42,7 +43,8 @@
             android:id="@+id/edit_task_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edit_task_content_hint" />
+            android:hint="@string/edit_task_content_hint"
+            android:maxLength="200"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
