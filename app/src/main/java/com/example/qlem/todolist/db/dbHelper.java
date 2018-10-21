@@ -58,7 +58,7 @@ public class dbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Variable that is the request for create a table.
+     * Variable that represents the request for create a table.
      */
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
@@ -69,7 +69,7 @@ public class dbHelper extends SQLiteOpenHelper {
             ;
 
     /**
-     * Variable that is request for delete a table.
+     * Variable that represents request for delete a table.
      */
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;

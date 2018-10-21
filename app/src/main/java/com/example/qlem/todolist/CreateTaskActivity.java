@@ -14,7 +14,7 @@ import com.example.qlem.todolist.db.dbHelper;
 import static com.example.qlem.todolist.db.dbContract.FeedEntry;
 
 /**
- * Class of the "create task" activity. Allows to create a new task.
+ * Class of the "create" activity. Allows to create a new task.
  */
 public class CreateTaskActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     /**
      * Method that initializes this activity. It is called when activity is created.
-     * Adds a new task in the database the returns this task to main activity when
+     * Adds a new task in the database then returns this task to main activity when
      * the "add" button is clicked.
      * @param saveInstanceState
      */

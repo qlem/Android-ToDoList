@@ -17,18 +17,18 @@ import static android.graphics.Color.rgb;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     /**
-     * Variable that contains the task list.
+     * Variable that stores the task list.
      */
     private List<Task> taskList;
 
     /**
-     * Variable that contains the event listener object.
+     * Variable that contains the event listeners that will be implemented on each task item.
      */
     private OnTaskEventListener listener;
 
     /**
      * Constructor of the adapter.
-     * @param taskList the list of tasks
+     * @param taskList the list of the tasks
      * @param listener the event listener object
      */
     Adapter(List<Task> taskList, OnTaskEventListener listener) {
@@ -37,49 +37,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     /**
-     * Class that sets the content of the view of each task.
+     * Class that represents the content of the view of each task.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        /**
-         * The view of a task element.
-         */
         public View view;
-
-        /**
-         * The task object.
-         */
         public Task task;
-
-        /**
-         * The text view that contains the task name.
-         */
         private TextView taskName;
-
-        /**
-         * the text view that contains the content of the task.
-         */
         private TextView taskContent;
-
-        /**
-         * The "edit" button of a task view.
-         */
         private AppCompatImageButton editButton;
-
-        /**
-         * The "delete" button of a task view.
-         */
         private AppCompatImageButton deleteButton;
-
-        /**
-         * The "done / undone" button of a task view.
-         */
         private AppCompatImageButton doneButton;
-
-        /**
-         * Constructor of the view holder.
-         * @param v
-         */
         ViewHolder(View v) {
             super(v);
             view = v;

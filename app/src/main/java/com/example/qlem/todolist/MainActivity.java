@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TaskContent taskContent = new TaskContent();
 
     /**
-     * Variable that contains database helper instance allowing to insert / update / remove task.
+     * Variable that contains database helper instance allowing to insert / update / remove task
+     * in the database.
      */
     private dbHelper dbHelper = new dbHelper(this);
 
@@ -43,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * Event method that starts "edit task" activity when the edit button of a task element in
-         * the list is clicked. Provides name, content and position of the task
-         * to the "edit task" activity.
+         * the list is clicked. Provides the targeted task and its position to the "edit" activity.
          * @param task task object
          * @param position task position in the list
          */
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method that initializes the main activity. Sets the recycler view of the task list.
-     * Starts "create task" activity when "add" button is clicked.
+     * Starts "create" activity when the "add" button is clicked.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Get task from db.
+        // Get tasks from db.
         getTasks();
 
         // Initialize recycler view.
@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Method that is called when the "create task" or "edit task" activity is finished.
-     * Adding or update one task in the task list. Depends on which activity has been called.
+     * Method that is called when the "create" or "edit" activity is finished.
+     * Adding or update one task in the list, depends on which activity has been called.
      * @param requestCode allows to identify the finished activity
      * @param resultCode describes the status of the finished activity (OK or CANCELED)
      * @param data transmitted data from finished activity to main activity

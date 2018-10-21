@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that contains task object, list of task and methods to handle this list.
+ * Class that contains task object, the list of the tasks and methods to handle this list.
  */
 public class TaskContent {
 
     /**
-     * Variable of the task list.
+     * Variable that stores the task list.
      */
     public List<Task> TASK_LIST = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class TaskContent {
     }
 
     /**
-     * Method that updates status of a task in the list.
+     * Method that updates status of one task in the list.
      * @param name task name
      * @param content task content
      * @param position position of the task in the list

@@ -14,7 +14,7 @@ import com.example.qlem.todolist.db.dbContract.FeedEntry;
 import com.example.qlem.todolist.db.dbHelper;
 
 /**
- * Class of the "edit task" activity. Allows to edit a task.
+ * Class of the "edit" activity. Allows to edit a task.
  */
 public class EditTaskActivity extends AppCompatActivity {
 
