@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Method that initializes the menu.
      * @param menu
      * @return
      */
@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Method that initializes the action when a menu item was clicked.
+     * Remove all tasks from the list if the item is "Remove all".
      * @param item
      * @return
      */
@@ -170,8 +171,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            // TODO remove all task here
+        if (id == R.id.remove_all) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            int deletedTasks = db.delete(FeedEntry.TABLE_NAME, null, null);
+            taskContent.TASK_LIST.clear();
+            adapter.notifyItemRangeRemoved(0, deletedTasks);
             return true;
         }
 
